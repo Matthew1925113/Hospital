@@ -21,7 +21,6 @@ public class Paciente {
     private String email;
     private String direccion;
     private String telefono;
-    private boolean activo;
 
     public Paciente() {
     }
@@ -84,12 +83,4 @@ public class Paciente {
         this.telefono = telefono;
     }
 
-    public boolean isActivo() {
-        return activo;
-    }
-
-    public void setActivo(boolean activo) {
-        this.activo = activo;
-    }   
-    // Other fields, constructors, getters, and setters
 }

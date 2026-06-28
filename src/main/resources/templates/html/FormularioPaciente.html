@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${paciente.id} == null ? 'Nuevo Paciente' : 'Editar Paciente'">Paciente</title>
+</head>
+<body>
+    <h1 th:text="${paciente.id} == null ? 'Nuevo Paciente' : 'Editar Paciente'">Paciente</h1>
+    <p th:if ="${error}" style="color:red" th:text="${error}"></p>
+
+    <form action="/GuardarPaciente" th:object="${paciente}" method="post">
+        <input type="hidden" th:field="*{id}" />
+
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" th:field="*{nombre}" />
+        <label for="apellido">Apellido:</label>
+        <input type="text" id="apellido" th:field="*{apellido}" />
+        <label for="cedula">Cedula:</label>
+        <input type="text" id="cedula" th:field="*{cedula}" />
+        <label for="email">Email:</label>
+        <input type="text" id="email" th:field="*{email}" />
+        <label for="direccion">Direccion:</label>
+        <input type="text" id="direccion" th:field="*{direccion}" />
+        <label for="telefono">Telefono:</label>
+        <input type="text" id="telefono" th:field="*{telefono}" />  
+        <button type="submit">Guardar</button>
+    </form>
+    
+</body>
+</html>
