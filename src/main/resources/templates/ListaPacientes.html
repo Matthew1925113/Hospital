@@ -24,7 +24,9 @@
                 <td th:text="${paciente.email}"></td>
                 <td th:text="${paciente.direccion}"></td>
                 <td th:text="${paciente.telefono}"></td>
-                <a th:href="@{/EditarPaciente/{id}(id=${paciente.id})}">Editar</a>
+                <td>
+                    <a th:href="@{/EditarPaciente/{id}(id=${paciente.id})}">Editar</a>
+                </td>
             </tr>
         </tbody>
     </table>
