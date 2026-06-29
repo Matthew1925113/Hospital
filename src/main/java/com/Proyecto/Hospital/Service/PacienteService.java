@@ -12,15 +12,15 @@ public class PacienteService {
     @Autowired
     private PacienteRepository repository;
     
-    public List<Paciente> findAll() {
+    public List<Paciente> ListarPacientes() {
         return repository.findAll();
     }
 
-    public Paciente findById(Long id) {
+    public Paciente ObtenerPaciente(Long id) {
         return repository.findById(id).orElse(null);
     }
 
-    public void save(Paciente paciente) {
+    public void GuardarPaciente(Paciente paciente) {
         repository.save(paciente);
     }
 }
