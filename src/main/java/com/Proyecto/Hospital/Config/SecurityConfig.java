@@ -1,18 +1,55 @@
 package com.Proyecto.Hospital.Config;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.stereotype.Component;
-import java.io.IOException;
+import com.Proyecto.Hospital.Security.LoginSecurityHeadler;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
-@Component
-public class SecurityConfig implements AuthenticationSuccessHandler {
-    
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
-        
-        boolean isAdmin = authentication.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig  {
+    private final LoginSecurityHeadler loginSecurityHeadler;
+    public SecurityConfig(LoginSecurityHeadler loginSecurityHeadler) {
+        this.loginSecurityHeadler = loginSecurityHeadler;
     }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+            .authorizeHttpRequests(auth -> auth
+                // Rutas públicas
+                .requestMatchers("/login").permitAll()
+                // Rutas privadas
+                .requestMatchers("/agendarcitas").hasRole("USUARIO")
+                .anyRequest().hasRole("ADMIN")
+            )
+            .formLogin(form -> form
+                .loginPage("/login")
+                .successHandler(loginSecurityHeadler)
+                .permitAll()
+            )
+            .logout(logout -> logout
+                .logoutSuccessUrl("/login?logout")
+                .permitAll()
+            )
+            .exceptionHandling(ex -> ex.accessDeniedPage("/acceso-denegado"))
+            .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()))
+            .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"));
+
+            return http.build();
+
+
+
+
+    }
+    
 }
