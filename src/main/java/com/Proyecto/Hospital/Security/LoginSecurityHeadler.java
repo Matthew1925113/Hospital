@@ -17,7 +17,7 @@ public class LoginSecurityHeadler implements AuthenticationSuccessHandler {
             response.sendRedirect("/inicio");
         }
         else{
-            response.sendRedirect("/");
+            response.sendRedirect("/inicio");
         }
     }
 }
