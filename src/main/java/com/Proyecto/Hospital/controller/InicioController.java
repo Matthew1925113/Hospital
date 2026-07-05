@@ -9,9 +9,4 @@ public class InicioController {
     public String inicio(){
         return "inicio";
     }
-
-    @GetMapping("/login")
-    public String login(){
-        return "login";
-    }
 }
