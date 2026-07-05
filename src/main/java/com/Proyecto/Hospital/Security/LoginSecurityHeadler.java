@@ -14,10 +14,10 @@ public class LoginSecurityHeadler implements AuthenticationSuccessHandler {
         
         boolean isAdmin = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).anyMatch(a -> a.equals("ROLE_ADMIN" ));
         if(isAdmin){
-            response.sendRedirect("/");
+            response.sendRedirect("/inicio");
         }
         else{
-            response.sendRedirect("/inicio");
+            response.sendRedirect("/");
         }
     }
 }

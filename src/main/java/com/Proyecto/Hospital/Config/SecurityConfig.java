@@ -29,11 +29,12 @@ public class SecurityConfig  {
                 // Rutas públicas
                 .requestMatchers("/login").permitAll()
                 // Rutas privadas
-                .requestMatchers("/agendarcitas").hasRole("USUARIO")
+                .requestMatchers("/inicio").hasRole("ADMIN")
                 .anyRequest().hasRole("ADMIN")
             )
             .formLogin(form -> form
                 .loginPage("/login")
+                .usernameParameter("email")
                 .successHandler(loginSecurityHeadler)
                 .permitAll()
             )
