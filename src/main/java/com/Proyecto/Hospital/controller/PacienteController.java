@@ -18,7 +18,7 @@ public class PacienteController {
  
     @GetMapping("/pacientes")
     public String index(Model model) {
-        model.addAttribute("pacientes", service.ListarPacientes());
+        model.addAttribute("listaPacientes", service.ListarPacientes());
         return "ListaPacientes";
     }
  
@@ -30,7 +30,11 @@ public class PacienteController {
  
     @GetMapping("/EditarPaciente/{id}")
     public String editPaciente(@PathVariable Long id, Model model) {
-        model.addAttribute("paciente", service.ObtenerPaciente(id));
+        Paciente paciente = service.ObtenerPaciente(id);
+        if (paciente == null) {
+            return "redirect:/listaPacientes";
+        }
+        model.addAttribute("paciente", paciente);
         return "FormularioPaciente";
     }
  

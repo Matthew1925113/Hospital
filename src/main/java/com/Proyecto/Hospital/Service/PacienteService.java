@@ -9,8 +9,11 @@ import java.util.List;
 @Service
 public class PacienteService {
     
-    @Autowired
-    private PacienteRepository repository;
+    private final PacienteRepository repository;
+
+    public PacienteService(PacienteRepository repository) {
+        this.repository = repository;
+    }
     
     public List<Paciente> ListarPacientes() {
         return repository.findAll();
@@ -22,5 +25,9 @@ public class PacienteService {
 
     public void GuardarPaciente(Paciente paciente) {
         repository.save(paciente);
+    }
+
+    public void EliminarPaciente(Long id) {
+        repository.deleteById(id);
     }
 }
