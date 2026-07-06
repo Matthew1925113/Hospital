@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
  
  
 @Entity
-public class Paciente {
+public class Medico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,12 +17,14 @@ public class Paciente {
     private String apellido;
     @Column(unique = true)
     private String cedula;
-    @Column (unique = true)
+    @Column(unique = true)
     private String email;
     private String direccion;
     private String telefono;
+    private String especialidad;
+    private String disponibilidadHoraria;
  
-    public Paciente() {
+    public Medico() {
     }
  
  
@@ -81,6 +83,22 @@ public class Paciente {
  
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+ 
+    public String getEspecialidad() {
+        return especialidad;
+    }
+ 
+    public void setEspecialidad(String especialidad) {
+        this.especialidad = especialidad;
+    }
+ 
+    public String getDisponibilidadHoraria() {
+        return disponibilidadHoraria;
+    }
+ 
+    public void setDisponibilidadHoraria(String disponibilidadHoraria) {
+        this.disponibilidadHoraria = disponibilidadHoraria;
     }
  
 }

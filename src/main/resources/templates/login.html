@@ -1,23 +1,428 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"  lang="es">
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+    <title>Iniciar Sesión - Sistema de Hospital</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Fondo animado con formas */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 180, 216, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveGradient 20s linear infinite;
+            top: -100px;
+            right: -100px;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveGradient 15s linear infinite reverse;
+            bottom: -100px;
+            left: -100px;
+        }
+
+        @keyframes moveGradient {
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                transform: translate(50px, 50px);
+            }
+        }
+
+        /* Contenedor Login */
+        .login-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 0;
+            max-width: 450px;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header del Login */
+        .login-header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 50px 30px 40px;
+            text-align: center;
+            color: white;
+        }
+
+        .login-header i {
+            font-size: 60px;
+            margin-bottom: 20px;
+            display: block;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .login-header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .login-header p {
+            font-size: 14px;
+            opacity: 0.9;
+            margin: 0;
+        }
+
+        /* Formulario */
+        .login-form {
+            padding: 40px 30px;
+        }
+
+        .error-alert {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 4px solid #f5c6cb;
+            display: none;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .error-alert[th-if] {
+            display: block;
+        }
+
+        .error-alert i {
+            margin-right: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            display: block;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 13px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fafafa;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #2a5298;
+            box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.1);
+            background-color: white;
+        }
+
+        .form-group input::placeholder {
+            color: #999;
+        }
+
+        .form-group i {
+            position: relative;
+        }
+
+        /* Campo con icono */
+        .input-group-icon {
+            position: relative;
+        }
+
+        .input-group-icon i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #2a5298;
+            font-size: 16px;
+        }
+
+        .input-group-icon input {
+            padding-right: 40px;
+        }
+
+        /* Checkbox Recordar */
+        .form-check {
+            margin-bottom: 25px;
+        }
+
+        .form-check-input {
+            border: 2px solid #e0e0e0;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .form-check-input:checked {
+            background-color: #2a5298;
+            border-color: #2a5298;
+        }
+
+        .form-check-label {
+            color: #666;
+            font-size: 14px;
+            cursor: pointer;
+            margin-left: 8px;
+        }
+
+        /* Botón Iniciar Sesión */
+        .btn-login {
+            width: 100%;
+            padding: 13px 25px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 5px 15px rgba(42, 82, 152, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(42, 82, 152, 0.4);
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+        }
+
+        .btn-login i {
+            font-size: 16px;
+        }
+
+        /* Divider */
+        .divider {
+            text-align: center;
+            margin: 30px 0;
+            position: relative;
+            color: #999;
+            font-size: 14px;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e0e0e0;
+            z-index: 0;
+        }
+
+        .divider span {
+            background: white;
+            padding: 0 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Footer del Login */
+        .login-footer {
+            text-align: center;
+            padding: 0 30px 30px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .login-footer a {
+            color: #2a5298;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .login-footer a:hover {
+            color: #1e3c72;
+            text-decoration: underline;
+        }
+
+        /* Animaciones */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-container {
+            animation: slideUp 0.6s ease-out;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .login-container {
+                margin: 20px;
+            }
+
+            .login-header {
+                padding: 40px 25px 30px;
+            }
+
+            .login-header i {
+                font-size: 50px;
+            }
+
+            .login-header h1 {
+                font-size: 24px;
+            }
+
+            .login-form {
+                padding: 30px 25px;
+            }
+
+            .btn-login {
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Iniciar Sesión</h1>
+    <div class="login-container">
+        <!-- Header -->
+        <div class="login-header">
+            <i class="fas fa-hospital"></i>
+            <h1>Sistema Hospitalario</h1>
+            <p>Iniciar Sesión</p>
+        </div>
 
-    <p th:if="${error}" style="color: red;">usuario o contraseña incorrectos</p>
+        <!-- Formulario -->
+        <div class="login-form">
+            <!-- Error Alert -->
+            <div class="error-alert" th:if="${error}">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>Usuario o contraseña incorrectos</span>
+            </div>
 
-    <form th:action="@{/login}" method="post">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-        <label for="password">Contraseña:</label>
-        <input type="password" id="password" name="password" required>
-        <button type="submit">Iniciar Sesión</button>
-    </form>
-    
+            <form th:action="@{/login}" method="post">
+                <!-- Campo Email -->
+                <div class="form-group">
+                    <label for="email">
+                        <i class="fas fa-envelope"></i> Email
+                    </label>
+                    <div class="input-group-icon">
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            placeholder="correo@hospital.com" 
+                            required 
+                            autofocus
+                        />
+                        <i class="fas fa-at"></i>
+                    </div>
+                </div>
+
+                <!-- Campo Contraseña -->
+                <div class="form-group">
+                    <label for="password">
+                        <i class="fas fa-lock"></i> Contraseña
+                    </label>
+                    <div class="input-group-icon">
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            placeholder="Ingresa tu contraseña" 
+                            required
+                        />
+                        <i class="fas fa-key"></i>
+                    </div>
+                </div>
+
+                <!-- Checkbox Recordar -->
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="remember" name="remember">
+                    <label class="form-check-label" for="remember">
+                        Recuérdame en este dispositivo
+                    </label>
+                </div>
+
+                <!-- Botón Login -->
+                <button type="submit" class="btn-login">
+                    <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                </button>
+            </form>
+
+            <!-- Divider -->
+            <div class="divider">
+                <span>¿Primera vez aquí?</span>
+            </div>
+
+            <!-- Footer -->
+            <div class="login-footer">
+                <p>
+                    Si no tienes cuenta, contacta al administrador del sistema
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

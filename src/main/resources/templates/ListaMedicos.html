@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Pacientes</title>
+    <title>Lista de Médicos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -14,14 +14,14 @@
         }
  
         body {
-            background: linear-gradient(135deg, #00b4d8 0%, #0096c7 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
  
         /* Navbar */
         .navbar-custom {
-            background: rgba(0, 180, 216, 0.95);
+            background: rgba(102, 126, 234, 0.95);
             backdrop-filter: blur(10px);
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
             padding: 15px 0;
@@ -50,7 +50,7 @@
  
         /* Header */
         .header-section {
-            background: rgba(0, 180, 216, 0.95);
+            background: rgba(102, 126, 234, 0.95);
             color: white;
             padding: 40px 20px;
             margin-bottom: 40px;
@@ -81,7 +81,7 @@
         }
  
         .btn-nuevo {
-            background: linear-gradient(135deg, #00b4d8 0%, #0096c7 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 12px 30px;
             border-radius: 8px;
@@ -99,7 +99,7 @@
  
         .btn-nuevo:hover {
             background: white;
-            color: #00b4d8;
+            color: #667eea;
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
             text-decoration: none;
@@ -126,7 +126,7 @@
         }
  
         .table thead {
-            background: linear-gradient(135deg, #00b4d8 0%, #0096c7 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
         }
  
@@ -145,7 +145,7 @@
         }
  
         .table tbody tr:hover {
-            background-color: #f0f8ff;
+            background-color: #f5f7ff;
             transform: scale(1.01);
         }
  
@@ -163,12 +163,12 @@
         /* Columna ID */
         .id-column {
             font-weight: 600;
-            color: #00b4d8;
+            color: #667eea;
         }
  
-        /* Email Badge */
-        .email-badge {
-            background: linear-gradient(135deg, #00b4d8 0%, #0096c7 100%);
+        /* Especialidad Badge */
+        .especialidad-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 6px 12px;
             border-radius: 20px;
@@ -183,7 +183,7 @@
         }
  
         .btn-editar {
-            background: linear-gradient(135deg, #00b4d8 0%, #0096c7 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 8px 16px;
             border-radius: 6px;
@@ -199,11 +199,11 @@
         }
  
         .btn-editar:hover {
-            background: linear-gradient(135deg, #0096c7 0%, #00b4d8 100%);
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
             color: white;
             text-decoration: none;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 180, 216, 0.3);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
         }
  
         /* Estado vacío */
@@ -233,7 +233,7 @@
  
         /* Footer */
         .footer-custom {
-            background: rgba(0, 180, 216, 0.95);
+            background: rgba(102, 126, 234, 0.95);
             color: white;
             text-align: center;
             padding: 20px;
@@ -317,7 +317,7 @@
                 padding: 10px 5px;
             }
  
-            .email-badge {
+            .especialidad-badge {
                 font-size: 10px;
                 padding: 4px 8px;
             }
@@ -343,12 +343,12 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="/pacientes">
+                        <a class="nav-link" href="/pacientes">
                             <i class="fas fa-user-injured"></i> Pacientes
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/medicos">
+                        <a class="nav-link active" href="/medicos">
                             <i class="fas fa-user-md"></i> Médicos
                         </a>
                     </li>
@@ -361,19 +361,19 @@
     <div class="header-section">
         <div class="header-content">
             <h1>
-                <i class="fas fa-user-injured"></i>
-                Lista de Pacientes
+                <i class="fas fa-stethoscope"></i>
+                Lista de Médicos
             </h1>
-            <a href="/pacienteNuevo" class="btn-nuevo">
-                <i class="fas fa-plus"></i> Nuevo Paciente
+            <a href="/medicoNuevo" class="btn-nuevo">
+                <i class="fas fa-plus"></i> Nuevo Médico
             </a>
         </div>
     </div>
  
     <!-- Contenedor Principal -->
     <div class="container-main">
-        <!-- Tabla de Pacientes -->
-        <div th:if="${pacientes.size() > 0}" class="table-responsive-custom">
+        <!-- Tabla de Médicos -->
+        <div th:if="${medicos.size() > 0}" class="table-responsive-custom">
             <table class="table">
                 <thead>
                     <tr>
@@ -384,22 +384,26 @@
                         <th>Email</th>
                         <th>Dirección</th>
                         <th>Teléfono</th>
+                        <th>Especialidad</th>
+                        <th>Disponibilidad Horaria</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="paciente : ${pacientes}">
-                        <td class="id-column" th:text="${paciente.id}"></td>
-                        <td th:text="${paciente.nombre}"></td>
-                        <td th:text="${paciente.apellido}"></td>
-                        <td th:text="${paciente.cedula}"></td>
+                    <tr th:each="medico : ${medicos}">
+                        <td class="id-column" th:text="${medico.id}"></td>
+                        <td th:text="${medico.nombre}"></td>
+                        <td th:text="${medico.apellido}"></td>
+                        <td th:text="${medico.cedula}"></td>
+                        <td th:text="${medico.email}"></td>
+                        <td th:text="${medico.direccion}"></td>
+                        <td th:text="${medico.telefono}"></td>
                         <td>
-                            <span class="email-badge" th:text="${paciente.email}"></span>
+                            <span class="especialidad-badge" th:text="${medico.especialidad}"></span>
                         </td>
-                        <td th:text="${paciente.direccion}"></td>
-                        <td th:text="${paciente.telefono}"></td>
+                        <td th:text="${medico.disponibilidadHoraria}"></td>
                         <td class="action-column">
-                            <a th:href="@{/EditarPaciente/{id}(id=${paciente.id})}" class="btn-editar">
+                            <a th:href="@{/EditarMedico/{id}(id=${medico.id})}" class="btn-editar">
                                 <i class="fas fa-edit"></i> Editar
                             </a>
                         </td>
@@ -409,12 +413,12 @@
         </div>
  
         <!-- Estado Vacío -->
-        <div th:if="${pacientes.size() == 0}" class="empty-state">
-            <i class="fas fa-user-injured"></i>
-            <h3>No hay pacientes registrados</h3>
-            <p>Comienza creando el primer paciente en el sistema</p>
-            <a href="/pacienteNuevo" class="btn-nuevo">
-                <i class="fas fa-plus"></i> Crear Primer Paciente
+        <div th:if="${medicos.size() == 0}" class="empty-state">
+            <i class="fas fa-user-md"></i>
+            <h3>No hay médicos registrados</h3>
+            <p>Comienza creando el primer médico en el sistema</p>
+            <a href="/medicoNuevo" class="btn-nuevo">
+                <i class="fas fa-plus"></i> Crear Primer Médico
             </a>
         </div>
     </div>
